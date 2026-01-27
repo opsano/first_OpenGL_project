@@ -1,0 +1,53 @@
+immediate mode - old version of OpenGL which abstracted tons of functionality. Is depreciated since version 3.2
+core-profile mode - version of OpenGL's specification that removed depreciated functionality & do most things ourselves
+
+Extension - An exension is kinda like a library connected to a specific graphics developer. For instance, NVIDIA might have their own extension which includes lots of functionality for more advanced/efficient graphics.
+
+state machine - A state machine is a mathematical model of computation that describes the behavior of a system with a finite number of states. 
+It operates by transitioning between these states in response to inputs or events, with each transition governed by predefined rules. 
+At any given time, the system is in exactly one state, and the next state depends on both the current state and the input received. 
+(basically, its a collection of variables which define how OpenGL should current operate).
+
+context - a context is the current state that OpenGL is in, by changing some variables or settings around we change the current state and hcange the context. (ex: drawing triangles vs. lines)
+state-changing functions - functions which change the context 
+state-using functions - functions which perform some operations based on the current state of OpenGL
+
+objects - a collection of options which represent a subset of OpenGL's state (ex: an object which represents the settings of the drawing window)
+
+render loop - a loop that keeps running until we tell GLFW to stop, ensures it doesn't just draw a single image then quit.
+
+
+GLFW is a library in C for OpenGL which gives the necessities required for rendering things to the screen.
+
+project setup:
+- download glfw source code (https://www.glfw.org/download.html)
+- extract the source code and create a build folder inside source code
+- use CMake by using the source code folder as entry, and build folder as exit
+- click configure, choose correct IDE, configure again, then generate (this goes to build folder)
+- inside build folder contains a file named GLFW.sln, open it and build it(right click project + build OR run code)
+- create new folder on desktop (or anywhere else) to put /lib and /include folders for compiler
+- put GLFW's include folder into the new /include, as well as the glfw3.lib file into the /lib folder (this is in build/src/Debug)
+- create a new C++ project (empty project), make sure its set to x64 at the top
+- right click the project, go to properties, go to VC++ directories, then under include directories & library directories, put the respective subfolders you created on your desktop
+- go to Linker, and under additional dependencies add glfw3.lib and opengl32.lib to it (just write file names).
+- Furthermore, under C/C++ -> general, put your new include folder into Additonal include directories
+- Now we use glad, which can be found at http://glad.dav1d.de/
+- set the language to C++, set the API section to OpenGL, ensure profile is set to Core, and the Generate a loader option is ticked, then click generate
+- Download the zip file & extract. Put the two include folders into YOUR include folder, and add the glad.c file to your project
+- create your main.cpp file and paste this into it:
+
+#include <glad/glad.h>
+// THIS MUST BE WITHIN A SEPARATE GLFW FOLDER EX: opengl_libs/include/GLFW/glfw3.h 
+// it also MUST be below the glad include
+#include <GLFW/glfw3.h> 
+int main(){
+	return 0;
+}
+
+- if there are no errors during compilation, you did everything correct
+
+
+
+Left off:
+Section - Hello Triangle
+Line - "From that point on any buffer calls we make (on the GL_ARRAY_BUFFER target) will be used to configure the currently bound buffer, which is VBO. Then we can make a call to the glBufferData function that copies the previously defined vertex data into the buffer's memory"
