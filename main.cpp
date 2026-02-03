@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <typeinfo>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -96,10 +97,20 @@ int main()
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
-         0.5f,  0.5f, 0.0f,  // top right
-         0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left 
+         // triangle 1
+         0.0f, -0.5f, 0.0f, // bottom left
+         0.5f, -0.5f, 0.0f, // bottom right
+         0.5f, 0.5f, 0.0f,  // top right
+
+         // triangle 2
+         0.0f, -0.5f, 0.0f,  // bottom right
+         -0.5f, -0.5f, 0.0f, // bottom left
+         -0.5f, 0.5f, 0.0f,  // top left
+
+         // triangle 3
+         -0.5f, -0.5f, 0.0f, // top left 
+         0.5f, -0.5f, 0.0f,  // top right
+         0.0f, -1.0f, 0.0f,  // bottom middle
     };
     unsigned int indices[] = {  // note that we start from 0!
         0, 1, 3,  // first Triangle
@@ -133,7 +144,7 @@ int main()
 
 
     // uncomment this call to draw in wireframe polygons.
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // render loop
     // -----------
@@ -151,8 +162,8 @@ int main()
         // draw our first triangle
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        //glDrawArrays(GL_TRIANGLES, 0, 6);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / 12); // 12 comes from 4 bytes per float, 3 floats per vertex
+        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         // glBindVertexArray(0); // no need to unbind it every time 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
